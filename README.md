@@ -1,4 +1,4 @@
-# Motion_Catch_Game
+# Motion_Recognition_Game
 Final_Project
 
 추후 수정 예정 (readme.md 는 해당 프로젝트에 대한 소개가 작성될 예정입니다)
