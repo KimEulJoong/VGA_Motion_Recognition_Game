@@ -23,9 +23,6 @@ module SCCB_master (
 
     logic [2:0] addcnt_reg, addcnt_next;
 
-
-
-
     // SCL State
     typedef enum {
         SCL_IDLE,
@@ -49,15 +46,17 @@ module SCCB_master (
 
     sda_state_e sda_state, sda_state_next;
 
-    assign sda      = sda_reg;
-    assign rom_addr = rom_addr_reg;
-
     scl_state_e scl_state, scl_state_next;
 
     logic scl_reg, scl_next;
 
     logic process_en_reg, process_en_next;
     logic clk_div_en_reg, clk_div_en_next;
+
+    logic sda_drive, sda_drive_next;
+
+    assign sda        = sda_drive ? sda_reg : 1'bz;
+    assign rom_addr   = rom_addr_reg;
 
     assign clk_div_en = clk_div_en_reg;
     assign scl        = scl_reg;
@@ -157,6 +156,7 @@ module SCCB_master (
             temp_reg_data_reg <= 0;
             rom_addr_reg      <= 0;
             process_en_reg    <= 0;
+            sda_drive         <= 0;
         end else begin
             sda_state         <= sda_state_next;
             sda_reg           <= sda_next;
@@ -166,6 +166,7 @@ module SCCB_master (
             temp_reg_data_reg <= temp_reg_data_next;
             rom_addr_reg      <= rom_addr_next;
             process_en_reg    <= process_en_next;
+            sda_drive         <= sda_drive_next;
         end
     end
 
@@ -178,9 +179,11 @@ module SCCB_master (
         temp_reg_addr_next = temp_reg_addr_reg;
         rom_addr_next      = rom_addr_reg;
         process_en_next    = process_en_reg;
+        sda_drive_next     = sda_drive;
 
         case (sda_state)
             SDA_IDLE: begin
+                sda_drive_next = 1'b1;
                 if (!sda) begin
                     sda_state_next  = SDA_START;
                     process_en_next = 1'b1;
@@ -190,9 +193,9 @@ module SCCB_master (
 
             SDA_START: begin
                 sda_next           = 1'b0;
-                temp_ip_addr_next  = {8'h42, 1'bx};
-                temp_reg_addr_next = {reg_addr, 1'bx};
-                temp_reg_data_next = {reg_data, 1'bx};
+                temp_ip_addr_next  = {8'h42, 1'b0};
+                temp_reg_addr_next = {reg_addr, 1'b0};
+                temp_reg_data_next = {reg_data, 1'b0};
                 if (tick) begin
                     if (!scl_reg) begin
                         sda_state_next = SDA_IP_ADDR;
@@ -242,7 +245,6 @@ module SCCB_master (
             SDA_STOP: begin
                 if (tick && scl_reg) begin
                     if (rom_addr_reg >= 75) begin
-                        rom_addr_next   = rom_addr_reg + 1;
                         process_en_next = 0;
                     end else begin
                         rom_addr_next   = rom_addr_reg + 1;
@@ -255,4 +257,3 @@ module SCCB_master (
         endcase
     end
 endmodule
-
