@@ -22,34 +22,34 @@ module Median_Filter (
         r_data[0] = PixelData_00[11:8];
         r_data[1] = PixelData_01[11:8];
         r_data[2] = PixelData_02[11:8];
-        r_data[3] = PixelData_00[11:8];
-        r_data[4] = PixelData_01[11:8];
-        r_data[5] = PixelData_02[11:8];
-        r_data[6] = PixelData_00[11:8];
-        r_data[7] = PixelData_01[11:8];
-        r_data[8] = PixelData_02[11:8];
+        r_data[3] = PixelData_10[11:8];
+        r_data[4] = PixelData_11[11:8];
+        r_data[5] = PixelData_12[11:8];
+        r_data[6] = PixelData_20[11:8];
+        r_data[7] = PixelData_21[11:8];
+        r_data[8] = PixelData_22[11:8];
 
         // Green
         g_data[0] = PixelData_00[7:4];
         g_data[1] = PixelData_01[7:4];
         g_data[2] = PixelData_02[7:4];
-        g_data[3] = PixelData_00[7:4];
-        g_data[4] = PixelData_01[7:4];
-        g_data[5] = PixelData_02[7:4];
-        g_data[6] = PixelData_00[7:4];
-        g_data[7] = PixelData_01[7:4];
-        g_data[8] = PixelData_02[7:4];
+        g_data[3] = PixelData_10[7:4];
+        g_data[4] = PixelData_11[7:4];
+        g_data[5] = PixelData_12[7:4];
+        g_data[6] = PixelData_20[7:4];
+        g_data[7] = PixelData_21[7:4];
+        g_data[8] = PixelData_22[7:4];
 
         // Blue
         b_data[0] = PixelData_00[3:0];
         b_data[1] = PixelData_01[3:0];
         b_data[2] = PixelData_02[3:0];
-        b_data[3] = PixelData_00[3:0];
-        b_data[4] = PixelData_01[3:0];
-        b_data[5] = PixelData_02[3:0];
-        b_data[6] = PixelData_00[3:0];
-        b_data[7] = PixelData_01[3:0];
-        b_data[8] = PixelData_02[3:0];
+        b_data[3] = PixelData_10[3:0];
+        b_data[4] = PixelData_11[3:0];
+        b_data[5] = PixelData_12[3:0];
+        b_data[6] = PixelData_20[3:0];
+        b_data[7] = PixelData_21[3:0];
+        b_data[8] = PixelData_22[3:0];
     end
 
     logic [3:0] sort_r_data[0:8];
