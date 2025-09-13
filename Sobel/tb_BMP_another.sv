@@ -123,18 +123,31 @@ module tb_BMP ();
         .PixelData_22(data22)
     );
 
-    Median_Filter U_Median (
-        .PixelData_00 (data00),
-        .PixelData_01 (data01),
-        .PixelData_02 (data02),
-        .PixelData_10 (data10),
-        .PixelData_11 (data11),
-        .PixelData_12 (data12),
-        .PixelData_20 (data20),
-        .PixelData_21 (data21),
-        .PixelData_22 (data22),
-        .Median_result(filter_result)
+    Gaussian_Filter U_Gaussian(
+        .PixelData_00(data00),
+        .PixelData_01(data01),
+        .PixelData_02(data02),
+        .PixelData_10(data10),
+        .PixelData_11(data11),
+        .PixelData_12(data12),
+        .PixelData_20(data20),
+        .PixelData_21(data21),
+        .PixelData_22(data22),
+        .Gaussian_Result(filter_result)
     );
+
+    //Median_Filter U_Median (
+    //    .PixelData_00 (data00),
+    //    .PixelData_01 (data01),
+    //    .PixelData_02 (data02),
+    //    .PixelData_10 (data10),
+    //    .PixelData_11 (data11),
+    //    .PixelData_12 (data12),
+    //    .PixelData_20 (data20),
+    //    .PixelData_21 (data21),
+    //    .PixelData_22 (data22),
+    //    .Median_result(filter_result)
+    //);
 
     //// Sobel 모듈
     //top_sobel_Filter U_Sobel (
