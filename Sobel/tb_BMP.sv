@@ -1,5 +1,7 @@
 `timescale 1ns / 1ps
 
+//주목!!!!! 꼭 TCL Consol에서 run all을 작성해야 함//
+
 module tb_BMP ();
     byte bmp_total[640*480*3+54];  // Header + Image
     byte bmp_header[54];
