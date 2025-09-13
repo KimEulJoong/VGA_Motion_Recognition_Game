@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-//주목!!!!! 꼭 TCL Consol에서 run all을 작성해야 함//
+///////주의!!!!! Simulation 이후 TCL Consol에서 run all 작성 필수 !!!! ///////////////////
 
 module tb_BMP ();
     byte bmp_total[640*480*3+54];  // Header + Image
@@ -18,7 +18,44 @@ module tb_BMP ();
     logic [9:0] target_y;
 
     logic [11:0]
-        data00, data01, data02, data10, data11, data12, data20, data21, data22;
+        data00,
+        data01,
+        data02,
+        data10,
+        data11,
+        data12,
+        data20,
+        data21,
+        data22,
+        Data00,
+        Data01,
+        Data02,
+        Data10,
+        Data11,
+        Data12,
+        Data20,
+        Data21,
+        Data22,
+        dAta00,
+        dAta01,
+        dAta02,
+        dAta10,
+        dAta11,
+        dAta12,
+        dAta20,
+        dAta21,
+        dAta22,
+        daTa00,
+        daTa01,
+        daTa02,
+        daTa10,
+        daTa11,
+        daTa12,
+        daTa20,
+        daTa21,
+        daTa22,
+        filter_result1,
+        filter_result2;
     logic result;
     logic [23:0] pixel_rgb888;
     logic [11:0] pixel_rgb444;
@@ -100,7 +137,7 @@ module tb_BMP ();
     );
 
     // LineBuffer 모듈
-    LineBuffer U_LineBuf (
+    LineBuffer U_LineBuf1 (
         .clk(clk),
         .x_pixel(x_pixel),
         .y_pixel(y_pixel),
@@ -116,19 +153,115 @@ module tb_BMP ();
         .PixelData_22(data22)
     );
 
-    // Sobel 모듈
-    top_sobel_Filter U_Sobel (
-        .data00(data00),
-        .data01(data01),
-        .data02(data02),
-        .data10(data10),
-        .data11(data11),
-        .data12(data12),
-        .data20(data20),
-        .data21(data21),
-        .data22(data22),
-        .result(result)
+    GrayScaleFilter U_Gray (
+        // gray input
+        .data00_gi(data00),
+        .data01_gi(data01),
+        .data02_gi(data02),
+        .data10_gi(data10),
+        .data11_gi(data11),
+        .data12_gi(data12),
+        .data20_gi(data20),
+        .data21_gi(data21),
+        .data22_gi(data22),
+        // gray output
+        .data00_go(Data00),
+        .data01_go(Data01),
+        .data02_go(Data02),
+        .data10_go(Data10),
+        .data11_go(Data11),
+        .data12_go(Data12),
+        .data20_go(Data20),
+        .data21_go(Data21),
+        .data22_go(Data22)
     );
+
+    Median_Filter U_Median (
+        .PixelData_00 (Data00),
+        .PixelData_01 (Data01),
+        .PixelData_02 (Data02),
+        .PixelData_10 (Data10),
+        .PixelData_11 (Data11),
+        .PixelData_12 (Data12),
+        .PixelData_20 (Data20),
+        .PixelData_21 (Data21),
+        .PixelData_22 (Data22),
+        .Median_result(filter_result1)
+    );
+
+    LineBuffer U_LineBuf2 (
+        .clk(clk),
+        .x_pixel(x_pixel),
+        .y_pixel(y_pixel),
+        .data(filter_result1),
+        .PixelData_00(dAta00),
+        .PixelData_01(dAta01),
+        .PixelData_02(dAta02),
+        .PixelData_10(dAta10),
+        .PixelData_11(dAta11),
+        .PixelData_12(dAta12),
+        .PixelData_20(dAta20),
+        .PixelData_21(dAta21),
+        .PixelData_22(dAta22)
+    );
+
+    Gaussian_Filter U_Gaussian (
+        .PixelData_00(dAta00),
+        .PixelData_01(dAta01),
+        .PixelData_02(dAta02),
+        .PixelData_10(dAta10),
+        .PixelData_11(dAta11),
+        .PixelData_12(dAta12),
+        .PixelData_20(dAta20),
+        .PixelData_21(dAta21),
+        .PixelData_22(dAta22),
+        .Gaussian_Result(filter_result2)
+    );
+
+
+    LineBuffer U_LineBuf3 (
+        .clk(clk),
+        .x_pixel(x_pixel),
+        .y_pixel(y_pixel),
+        .data(filter_result2),
+        .PixelData_00(daTa00),
+        .PixelData_01(daTa01),
+        .PixelData_02(daTa02),
+        .PixelData_10(daTa10),
+        .PixelData_11(daTa11),
+        .PixelData_12(daTa12),
+        .PixelData_20(daTa20),
+        .PixelData_21(daTa21),
+        .PixelData_22(daTa22)
+    );
+
+    Sobel U_Sobel (
+        // gray input
+        .data00(daTa00),
+        .data01(daTa01),
+        .data02(daTa02),
+        .data10(daTa10),
+        .data11(daTa11),
+        .data12(daTa12),
+        .data20(daTa20),
+        .data21(daTa21),
+        .data22(daTa22),
+        .sdata (result)
+    );
+
+    // Sobel 모듈
+    //top_sobel_Filter U_Sobel (
+    //    .data00(daTa00),
+    //    .data01(daTa01),
+    //    .data02(daTa02),
+    //    .data10(daTa10),
+    //    .data11(daTa11),
+    //    .data12(daTa12),
+    //    .data20(daTa20),
+    //    .data21(daTa21),
+    //    .data22(daTa22),
+    //    .result(result)
+    //);
 
     // 메인 initial 블록만 수정 (타이밍 문제 해결)
     initial begin
