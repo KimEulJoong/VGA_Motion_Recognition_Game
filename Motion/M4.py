@@ -5,7 +5,7 @@ import pygame
 # 경로 설정
 # --------------------------
 bg_path = "./background.png"  # 배경
-char1_path = "./4.png"        # 1p
+char1_path = "./M4.png"        # 1p
 
 # 색상
 WHITE = (255, 255, 255)
