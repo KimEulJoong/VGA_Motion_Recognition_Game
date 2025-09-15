@@ -53,6 +53,8 @@ module color_detector (
     assign box3_on = ((ys >> 2) >= (Y_BOX3 >> 2) && (ys >> 2) < ((Y_BOX3 + 159) >> 2) &&
                     (xs >> 2) >= (X_BOX3 >> 2) && (xs >> 2) < ((X_BOX3 + 159) >> 2)) ? 1 : 0;
     // --------------------------------------------------------------------------------
+
+    
     always_ff @(posedge clk) begin
         if (rst) begin
             tx_data <= 0;
