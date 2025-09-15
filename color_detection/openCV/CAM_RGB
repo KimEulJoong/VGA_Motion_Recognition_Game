@@ -1,0 +1,26 @@
+import cv2
+import numpy as np
+
+# 카메라 열기 (0번 장치)
+cap = cv2.VideoCapture(0)
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # 관심 영역(ROI) 지정: 예) 중앙 50x50 박스
+    roi = frame[200:250, 300:350]
+
+    # 평균 색상 구하기
+    mean_color = cv2.mean(roi)[:3]  # (B, G, R)
+    print("평균 RGB:", mean_color[::-1])  # R, G, B 순서로 출력
+
+    cv2.rectangle(frame, (300,200), (350,250), (0,255,0), 2)
+    cv2.imshow("Frame", frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
