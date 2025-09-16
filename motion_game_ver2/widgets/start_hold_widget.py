@@ -16,7 +16,7 @@ except Exception:
 
 # ---------------- UART ----------------
 class UartReader(threading.Thread):
-    """parse_mode: anybyte | startline | binary01"""
+    """parse_mode: anybyte | startline | binary01 | token"""
     daemon = True
     def __init__(self, port: str, baud: int, parse_mode: str, out_q: "queue.Queue", debug: bool = False):
         super().__init__()
@@ -28,13 +28,14 @@ class UartReader(threading.Thread):
         if self.port is None or serial is None:
             return
         try:
+            # 시리얼 포트 열기 (timeout=0.01 → 빨리 빠져나올 수 있도록)
             self.ser = serial.Serial(self.port, self.baud, timeout=0.01)
         except Exception as e:
             print(f"[UART] Open failed: {e}")
             return
 
-        buf = bytearray()
-        while not self._stop.is_set():
+        buf = bytearray()   # 줄 단위 모드를 위해 임시 버퍼
+        while not self._stop.is_set():  # stop() 호출 전까지 무한루프
             try:
                 data = self.ser.read(1024)
             except Exception as e:
@@ -44,26 +45,38 @@ class UartReader(threading.Thread):
                 continue
 
             if self.mode == "anybyte":
+                 # 바이트가 들어오면 pulse 이벤트 발생
                 self.q.put({"type": "pulse", "ts": time.monotonic()})
                 if self.debug:
                     print(f"[UART] pulse ({len(data)}B)")
             else:
+                # 줄 단위 모드 (startline, binary01)
                 buf.extend(data)
-                while b"\n" in buf:  # 정확한 줄바꿈
+                while b"\n" in buf:  # 줄바꿈이 있으면 분리
                     line, _, rest = buf.partition(b"\n")
                     buf = bytearray(rest)
                     s = line.strip().decode(errors="ignore")
                     if not s:
                         continue
+
                     if self.mode == "startline":
+                        # 라인이 "START"이면 pulse 발생
                         if s.upper() == "START":
                             self.q.put({"type": "pulse", "ts": time.monotonic()})
+
                     elif self.mode == "binary01":
+                        # "1" → pressed=1, "0" → pressed=0
                         if s == "1":
                             self.q.put({"type": "pressed", "val": 1, "ts": time.monotonic()})
                         elif s == "0":
                             self.q.put({"type": "pressed", "val": 0, "ts": time.monotonic()})
 
+                    elif self.mode == "token":
+                        # FPGA에서 'qstick' (대소문자 무관) 수신 시 펄스 발생
+                        if s.lower() == "qstick":
+                            self.q.put({"type": "pulse", "ts": time.monotonic()})
+                            if self.debug:
+                                print("[UART] token: qstick → pulse")
         try:
             if self.ser:
                 self.ser.close()
@@ -77,23 +90,26 @@ class UartReader(threading.Thread):
 # --------------- Hold -----------------
 @dataclass
 class HoldState:
-    progress: float = 0.0
-    last_pulse_ts: float = -1.0
-    explicitly_pressed: bool = False
+     # 현재 진행 상태를 기록하는 데이터 구조
+    progress: float = 0.0           # 누적된 홀드 시간
+    last_pulse_ts: float = -1.0     # 마지막 펄스 시각
+    explicitly_pressed: bool = False    # 눌림 상태를 명시적으로 기록
 
 class HoldDetector:
     def __init__(self, hold_seconds: float, timeout: float, debug: bool = False):
-        self.hold_s = hold_seconds
-        self.timeout = timeout
+        self.hold_s = hold_seconds  # 목표 홀드 시간 (초)
+        self.timeout = timeout      # 펄스 간격 허용치
         self.debug = debug
-        self.state = HoldState()
+        self.state = HoldState()    # 초기 상태
 
     def on_pulse(self, now: float):
+        # 펄스가 들어왔을 때 최근 시각 갱신
         self.state.last_pulse_ts = now
         if self.debug:
             print(f"[Hold] pulse @ {now:.3f}")
 
     def set_explicit(self, val: int, now: float):
+        # 명시적으로 눌림 상태 설정 (binary01 모드 등)
         self.state.explicitly_pressed = bool(val)
         if val:
             self.state.last_pulse_ts = now
@@ -101,10 +117,13 @@ class HoldDetector:
             print(f"[Hold] explicit={val}")
 
     def update(self, dt: float, now: float):
+        # 유지 여부 판정
         holding = self.state.explicitly_pressed or (
             self.state.last_pulse_ts >= 0 and (now - self.state.last_pulse_ts) <= self.timeout
         )
         prev = self.state.progress
+        # 입력이 유지 중이면 progress += dt, 끊겼으면 progress = 0.
+        # progress >= hold_s 에 도달하면 just_done = True.
         self.state.progress = min(self.hold_s, (self.state.progress + dt) if holding else 0.0)
         just_done = prev < self.hold_s and self.state.progress >= self.hold_s
         ratio = 0.0 if self.hold_s <= 0 else max(0.0, min(1.0, self.state.progress / self.hold_s))
@@ -161,9 +180,10 @@ class StartHoldWidget:
 
     # input
     def handle_event(self, e: "pygame.event.Event"):
-        if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+        if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE: # space바 눌림일 때 이벤트 발생.
             self.hold.on_pulse(time.monotonic())
 
+    # uartReader 스레드가 큐에 넣어둔 이벤트를 메인 스레드가 모두 꺼내서 HoldDetector에 반영.
     def pump_uart(self):
         try:
             while True:
@@ -172,11 +192,11 @@ class StartHoldWidget:
                 if m["type"] == "pulse":
                     self.hold.on_pulse(now)
                 elif m["type"] == "pressed":
-                    self.hold.set_explicit_pressed(bool(m.get("val", 0)), now)  # ← 함수명 수정
+                    self.hold.set_explicit(int(m.get("val", 0)), now)  # (O)
         except queue.Empty:
             pass
 
-    # update/draw
+    # update / draw
     def update(self, dt: float) -> bool:
         if self._completed:
             return True

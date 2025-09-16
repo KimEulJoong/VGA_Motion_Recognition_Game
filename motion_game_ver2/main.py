@@ -1,4 +1,4 @@
-# intro_with_cam.py
+# main.py
 from PIL import Image, ImageDraw
 from pathlib import Path
 import time
@@ -8,6 +8,8 @@ import numpy as np
 
 from widgets import StartHoldWidget
 from scenes.mode_select_scene import ModeSelectScene
+from scenes.music_select_scene import MusicSelectScene
+from scenes.play_scene import PlayScene
 
 # ---------------- Paths ----------------
 BASE_DIR = Path(__file__).resolve().parent 
@@ -29,10 +31,14 @@ pygame.display.set_caption("Motion Game")
 clock = pygame.time.Clock()
 
 # --------- Background (PIL→Surface) ----
-bg = Image.open(bg_path).convert("RGBA").resize((W, H))
-draw = ImageDraw.Draw(bg)
-draw.rectangle([vga_x0, vga_y0, vga_x1, vga_y1], fill="black")  # VGA 영역
-bg_surf = pygame.image.fromstring(bg.tobytes(), bg.size, bg.mode)
+bg_layout = Image.open(bg_path).convert("RGBA").resize((W, H))
+draw = ImageDraw.Draw(bg_layout)
+draw.rectangle([vga_x0, vga_y0, vga_x1, vga_y1], fill="black")
+bg_layout_surf = pygame.image.fromstring(bg_layout.tobytes(), bg_layout.size, bg_layout.mode)
+
+# PLAY용: 검정 사각형 없는 ‘깨끗한’ 배경
+bg_plain = Image.open(bg_path).convert("RGBA").resize((W, H))
+bg_plain_surf = pygame.image.fromstring(bg_plain.tobytes(), bg_plain.size, bg_plain.mode)
 
 # --------------- Characters ------------
 char1_surf = pygame.image.load(char1_path).convert_alpha()
@@ -71,12 +77,12 @@ if not cap.isOpened():
 # ------------- Start Widget ------------
 start_widget = StartHoldWidget(
     (W, H),
-    port=None, baud=115200, parse_mode="anybyte",
-    hold_s=2.0, timeout=0.25,
-    label_idle="Start!!", label_done="Ready!",
-    title_default="Motion Game",
-    btn_rect=(60, H-180, 420, 130),
-    title_pos=(W//2, 100)
+    port="COM21", baud=115200, parse_mode="token",
+    hold_s=2.0, timeout=0.25, debug=True
+    # label_idle="Start!!", label_done="Ready!",
+    # title_default="Motion Game",
+    # btn_rect=(60, H-180, 420, 130),
+    # title_pos=(W//2, 100)
 )
 
 # --------------- Main Loop -------------
@@ -84,6 +90,10 @@ STATE = "INTRO"
 mode_scene = None
 running = True
 last = time.monotonic()
+
+mode_scene = None
+music_scene = None
+play_scene = None
 
 while running:
     now = time.monotonic()
@@ -96,11 +106,19 @@ while running:
         if STATE == "INTRO":
             start_widget.handle_event(e)
         elif STATE == "MODE" and mode_scene:
-            mode_scene.handle_event(e, now)
+            mode_scene.handle_event(e, now)  
+        elif STATE == "MUSIC" and music_scene:
+            music_scene.handle_event(e, now)
+        elif STATE == "PLAY" and play_scene:
+            play_scene.handle_event(e, now)
 
     # 공통 배경
-    screen.blit(bg_surf, (0, 0))
+    if STATE in ("INTRO", "MODE", "MUSIC"):
+        screen.blit(bg_layout_surf, (0, 0))   # 기존 레이아웃 배경
+    else:  # PLAY 배경
+        screen.blit(bg_plain_surf, (0, 0))    # 깨끗한 배경
 
+    # ------------ INTRO ------------
     if STATE == "INTRO":
         # 카메라
         ok, frame = cap.read()
@@ -109,21 +127,22 @@ while running:
         else:
             pygame.draw.rect(screen, (0,0,0), (vga_x0, vga_y0, vga_w, vga_h))
 
-        # 캐릭터
+        # 캐릭터 스프라이트 고정 렌더링
         screen.blit(char1_surf, (50, 400))
         screen.blit(char2_surf, (W - 650, 350))
 
         # Start 홀드 UI
-        start_widget.pump_uart()
+        start_widget.pump_uart()    # 입력 이벤트 수집 단
         if start_widget.update(dt):
             # INTRO → MODE 전환 (같은 창)
             start_widget.stop()    # UART 쓰고 있으면 정리
-            mode_scene = ModeSelectScene(W, H, port=None, baud=230400, parse="token", hold=2.0, timeout=0.25, assets_dir=ASSETS)
+            mode_scene = ModeSelectScene(W, H, port="COM21", baud=115200, parse="token", hold=2.0, timeout=0.25, assets_dir=ASSETS)
             mode_scene.enter()
             STATE = "MODE"
         start_widget.draw(screen, title="Motion Game",
                           hint="손을 START 영역에 2초 유지 · Space=테스트 · ESC=종료")
 
+    # ------------- MODE -------------
     elif STATE == "MODE":
         # 카메라
         ok, frame = cap.read()
@@ -131,13 +150,72 @@ while running:
             blit_cam_into_rect(screen, frame, (vga_x0, vga_y0, vga_w, vga_h))
         else:
             pygame.draw.rect(screen, (0,0,0), (vga_x0, vga_y0, vga_w, vga_h))
-            
+
         mode_scene.update(dt, now)
         mode_scene.draw(screen)
         if mode_scene.done():
-            res = mode_scene.get_result()  # 'play' or 'motion_sel'
-            print("NEXT:", res)
-            # TODO: res에 따라 다음 STATE로 분기 (여기서는 데모로 종료)
+            res = mode_scene.get_result()   # 'single' or 'Multi'
+            mode_scene.exit()
+            if res == "Single":
+                # MUSIC 씬 시작
+                music_scene = MusicSelectScene(W, H, assets_dir=ASSETS, 
+                                               port="COM21", baud=115200,
+                                               hold=2.0, timeout=0.25, debug=True,
+                                               confirm_show=1.0)
+                music_scene.enter()
+                STATE = "MUSIC"
+                continue
+            elif res == "Multi":
+                # TODO: 바로 게임(single)로 가고 싶다면 여기서 single 씬 생성
+                running = False
+    
+    # ------------ MUSIC -------------
+    elif STATE == "MUSIC":
+        ok, frame = cap.read()
+        if ok:
+            blit_cam_into_rect(screen, frame, (vga_x0, vga_y0, vga_w, vga_h))
+        else:
+            pygame.draw.rect(screen, (0,0,0), (vga_x0, vga_y0, vga_w, vga_h))
+
+        music_scene.update(dt, now)
+        music_scene.draw(screen)
+
+        if music_scene.done():
+            selected_song = music_scene.get_result()  # 'GOLDEN' / 'SODA' / ...
+            print("SELECTED SONG:", selected_song)
+            music_scene.exit(); music_scene = None
+
+            # PLAY 씬 준비만 하고, 렌더/업데이트는 다음 프레임부터 정상 루프에서 돌림
+            play_scene = PlayScene(
+                W, H, assets_dir=ASSETS, port="COM21", baud=115200,
+                prep_seconds=5.0, result_hold=3.0,
+                pause_hold=1.0, pause_timeout=0.25,
+                parse_mode="ascii", debug=False
+            )
+            play_scene.enter()
+            STATE = "PLAY"
+
+    # ------------- PLAY -------------
+    elif STATE == "PLAY":
+        ok, frame = cap.read()
+        # 씬 인스턴스가 없으면 안전하게 생성(이상 케이스 대비)
+        if play_scene is None:
+            play_scene = PlayScene(
+                W, H, assets_dir=ASSETS, port="COM21", baud=115200,
+                prep_seconds=5.0, result_hold=3.0,
+                pause_hold=1.0, pause_timeout=0.25,
+                parse_mode="ascii", debug=False
+            )
+            play_scene.enter()
+
+        # ★ 매 프레임 호출 ★
+        play_scene.update(dt, now)
+        play_scene.draw(screen, frame if ok else None)
+
+        if play_scene.done():
+            print("PLAY_DONE:", play_scene.get_result())
+            play_scene.exit(); play_scene = None
+            # 다음 상태로 갈 게 있으면 바꿔주고, 데모면 종료
             running = False
 
     pygame.display.flip()
