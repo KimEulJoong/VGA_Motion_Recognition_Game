@@ -3,6 +3,7 @@
 module SCCB (
     input  logic clk,
     input  logic reset,
+    input  logic start,
     inout  logic sda,
     output logic scl
 );
@@ -28,6 +29,7 @@ module SCCB (
     SCCB_master U_SCCB_Master (
         .clk       (clk),
         .reset     (reset),
+        .start     (start),
         .tick      (tick),        // 400kHz tick
         .reg_addr  (dout[15:8]),
         .reg_data  (dout[7:0]),
@@ -63,8 +65,6 @@ module clock_gen_400khz (
         end
     end
 endmodule
-
-
 
 
 
