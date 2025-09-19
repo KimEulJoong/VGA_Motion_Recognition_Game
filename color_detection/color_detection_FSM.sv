@@ -9,7 +9,7 @@ module color_detector (
     input  logic [15:0] rgb_data,      //rgb565
     input  logic        bg_pixel,
     // output logic [ 7:0] tx_data,
-    output logic [ 1:0] mode_sel,      //detect
+    output logic [ 2:0] mode_sel,      //detect   수정!!!
     output logic        tx_start,      //detect
     //play_fsm input
     input  logic        ready_flag,
@@ -26,6 +26,19 @@ module color_detector (
 
     logic red;
     logic r_is_max, s_is_ok, value_is_ok;
+
+    logic [3:0] qs_cnt_reg, qs_cnt_next;
+    logic qs_tick, detected;
+    logic start_state_reg, start_state_next;
+    logic flag_reg, flag_next;
+    logic [2:0] mode_sel_reg, mode_sel_next;
+    logic [9:0] chroma_start_reg, chroma_start_next;
+    logic [9:0] chroma_end_reg, chroma_end_next;
+    logic signal, signal_next;
+
+    assign mode_sel = mode_sel_reg;
+    assign chroma_start = chroma_start_reg;
+    assign chroma_end = chroma_end_reg;
 
     assign r4 = rgb_data[15:12];
     assign g4 = rgb_data[10:7];
@@ -52,44 +65,54 @@ module color_detector (
 
     logic box1_in, box2_in, box3_in, box4_in, box5_in, box6_in;
 
-    localparam  X_BOX1 = 10,  X_BOX2 = 10,   X_BOX3 = 10,   X_BOX4 = 480, X_BOX5 = 480, X_BOX6 = 480;   // 4,5 수정 필
+    logic [9:0]
+        X_BOX1 = chroma_start_reg,
+        X_BOX2 = chroma_start_reg,
+        X_BOX3 = chroma_start_reg,
+        X_BOX4 = chroma_end_reg,
+        X_BOX5 = chroma_end_reg,
+        X_BOX6 = chroma_end_reg;  // 4,5 수정 필
     localparam  Y_BOX1 = 10,  Y_BOX2 = 160,  Y_BOX3 = 320,  Y_BOX4 = 10,  Y_BOX5 = 160, Y_BOX6 = 320;   // 4,5 수정 필
 
     // -----------------------------------box1-----------------------------------------
     assign box1_in = ( (y >= Y_BOX1) && (y < (Y_BOX1 + 149)) &&
-                     (x >= X_BOX1 ) && (x < (X_BOX1 + 149)) ) ? 1 : 0;
+                     (x >= 10 ) && (x < (X_BOX1 )) ) ? 1 : 0;
     // --------------------------------------------------------------------------------
     // -----------------------------------box2-----------------------------------------
     assign box2_in = ( (y >= Y_BOX2) && (y < (Y_BOX2 + 149)) &&
-                     (x >= X_BOX2 ) && (x < (X_BOX2 + 149)) ) ? 1 : 0;
+                     (x >= 10 ) && (x < (X_BOX2 )) ) ? 1 : 0;
     // --------------------------------------------------------------------------------
     // -----------------------------------box3-----------------------------------------
     assign box3_in = ( (y >= Y_BOX3) && (y < (Y_BOX3 + 149)) &&
-                     (x >= X_BOX3 ) && (x < (X_BOX3 + 149)) ) ? 1 : 0;
+                     (x >= 10 ) && (x < X_BOX3 ) ) ? 1 : 0;
     // --------------------------------------------------------------------------------
     // --------------------------------------------------------------------------------
     // -----------------------------------box4-----------------------------------------
     assign box4_in = ( (y >= Y_BOX4) && (y < (Y_BOX4 + 149)) &&
-                     (x >= X_BOX4 ) && (x < (X_BOX4 + 149)) ) ? 1 : 0;
+                     (x >= X_BOX4 ) && (x < 630 ) ) ? 1 : 0;
     // --------------------------------------------------------------------------------
     // --------------------------------------------------------------------------------
     // -----------------------------------box5-----------------------------------------
     assign box5_in = ( (y >= Y_BOX5) && (y < (Y_BOX5 + 149)) &&
-                     (x >= X_BOX5 ) && (x < (X_BOX5 + 149)) ) ? 1 : 0;
+                     (x >= X_BOX5 ) && (x < 630 ) ) ? 1 : 0;
     // --------------------------------------------------------------------------------
     // --------------------------------------------------------------------------------
     // -----------------------------------box6-----------------------------------------
     assign box6_in = ( (y >= Y_BOX6) && (y < (Y_BOX6 + 149)) &&
-                     (x >= X_BOX6 ) && (x < (X_BOX6 + 149)) ) ? 1 : 0;
+                     (x >= X_BOX6 ) && (x < 630 ) ) ? 1 : 0;
     // --------------------------------------------------------------------------------
 
-    logic box_intro, box_music_1, box_music_2;
+    logic
+        box_intro, box_music_1, box_music_2, box_pause, box_restart, box_reset;
 
     assign box_intro   = box3_in;
     // assign box_mode_1p = box1_in || box2_in || box3_in;
     // assign box_mode_2p = box4_in || box5_in || box6_in;
     assign box_music_1 = box1_in;
     assign box_music_2 = box4_in;
+    assign box_pause   = box1_in;
+    assign box_restart = (box1_in || box2_in || box3_in);
+    assign box_reset   = (box4_in || box5_in || box6_in);
 
     //assign tx_start = box_intro && red;
 
@@ -98,18 +121,7 @@ module color_detector (
     logic [$clog2(100_000_000 / 16)-1:0] timer;
     // logic [3:0] three_cnt_reg, three_cnt_next;
 
-    logic [3:0] qs_cnt_reg, qs_cnt_next;
-    logic qs_tick, detected;
-    logic start_state_reg, start_state_next;
-    logic flag_reg, flag_next;
-    logic [1:0] mode_sel_reg, mode_sel_next;
-    logic [9:0] chroma_start_reg, chroma_start_next;
-    logic [9:0] chroma_end_reg, chroma_end_next;
-    logic signal, signal_next;
 
-    assign mode_sel = mode_sel_reg;
-    assign chroma_start = chroma_start_reg;
-    assign chroma_end = chroma_end_reg;
 
     typedef enum {
         LOADING,
@@ -120,9 +132,9 @@ module color_detector (
         SODA,
         START,
         PAUSE,
+        WAIT,         
         RESTART,
-        BOX4,
-        BOX5
+        RESET
     } detect_state_e;
 
     detect_state_e detect_state, detect_next_state;
@@ -228,7 +240,7 @@ module color_detector (
                 if (red && box_intro) begin
                     flag_next = 1;
                     detect_next_state = READY;
-                    mode_sel_next = 2'd0;
+                    mode_sel_next = 3'd0;
                 end
             end
 
@@ -260,11 +272,11 @@ module color_detector (
                 if (red && box_music_1) begin
                     flag_next = 1;
                     detect_next_state = GOLDEN;
-                    mode_sel_next = 2'd1;
+                    mode_sel_next = 3'd1;
                 end else if (red && box_music_2) begin
                     flag_next = 1;
                     detect_next_state = SODA;
-                    mode_sel_next = 2'd2;
+                    mode_sel_next = 3'd2;
                 end
             end
 
@@ -317,68 +329,98 @@ module color_detector (
             end
 
             START: begin
-                start_state_next = 1'b1;
-                //if (qs_tick) begin
-                if (box1_in && red) begin
-                    if (qs_cnt_reg == 4) begin
-                        detect_next_state = PAUSE;
-                        start_next = 1'b0;
-                    end else begin
-                        qs_cnt_next = qs_cnt_reg + 1;
-                        start_next  = 1'b1;
-                    end
-                end else begin
-                    start_next  = 1'b0;
-                    qs_cnt_next = 0;
+                if (red && box_pause) begin
+                    flag_next = 1;
+                    detect_next_state = PAUSE;
+                    mode_sel_next = 3'd3;
                 end
-                //end
             end
+
+
+            //uart_mode_sel == 2'd3 -> pause
+            //uart_mode_sel == 2'd4 -> restart
+            //uart_mode_sel == 2'd5 -> reset
+
 
             PAUSE: begin
-                //if (qs_tick) begin
-                if (box4_in && red) begin
-                    detect_next_state = BOX4;
-                end else if (box5_in && red) begin
-                    detect_next_state = BOX5;
-                end
-                //end
-            end
+                if (flag_reg) begin
+                    if (x == 639 && y == 479) begin
+                        if (!detected) begin
+                            detect_next_state = START;
+                            qs_cnt_next       = 0;
+                            start_next        = 1'b0;
+                            flag_next         = 1'b0;
+                        end
+                    end
 
-            BOX4: begin
-                //if (qs_tick) begin
-                if (box4_in && red) begin
-                    if (qs_cnt_reg == 12) begin
-                        detect_next_state = START;
-                        qs_cnt_next = 0;
-                        start_next = 1'b0;
-                    end else begin
-                        qs_cnt_next = qs_cnt_reg + 1;
-                        start_next  = 1'b1;
+                    if (qs_tick) begin  // 250ms tick
+                        start_next = 1'b1;
+                        if (qs_cnt_reg == 8) begin  // 안전제일!
+                            detect_next_state = WAIT;
+                            qs_cnt_next       = 0;
+                            flag_next         = 1'b0;
+                        end else begin
+                            qs_cnt_next = qs_cnt_reg + 1;
+                        end
                     end
-                end else begin
-                    detect_next_state = PAUSE;
-                    qs_cnt_next = 0;
-                    start_next = 1'b0;
                 end
-                //end
             end
-            BOX5: begin
-                //if (qs_tick) begin
-                if (box5_in && red) begin
-                    if (qs_cnt_reg == 12) begin
-                        detect_next_state = IDLE;
-                        qs_cnt_next = 0;
-                        start_next = 1'b0;
-                    end else begin
-                        qs_cnt_next = qs_cnt_reg + 1;
-                        start_next  = 1'b1;
-                    end
-                end else begin
-                    detect_next_state = PAUSE;
-                    qs_cnt_next = 0;
-                    start_next = 1'b0;
+            WAIT: begin
+                if (red && box_restart) begin
+                    flag_next = 1;
+                    detect_next_state = RESTART;
+                    mode_sel_next = 3'd4;
+                end else if (red && box_reset) begin
+                    flag_next = 1;
+                    detect_next_state = RESET;
+                    mode_sel_next = 3'd5;
                 end
-                //end
+            end
+            RESTART:begin
+                if (flag_reg) begin
+                    if (x == 639 && y == 479) begin
+                        if (!detected) begin
+                            detect_next_state = WAIT;
+                            qs_cnt_next       = 0;
+                            start_next        = 1'b0;
+                            flag_next         = 1'b0;
+                        end
+                    end
+
+                    if (qs_tick) begin  // 250ms tick
+                        start_next = 1'b1;
+                        if (qs_cnt_reg == 8) begin  // 안전제일!
+                            detect_next_state = START;
+                            qs_cnt_next       = 0;
+                            flag_next         = 1'b0;
+                        end else begin
+                            qs_cnt_next = qs_cnt_reg + 1;
+                        end
+                    end
+                end
+            end
+            RESET:begin
+                if (flag_reg) begin
+                    if (x == 639 && y == 479) begin
+                        if (!detected) begin
+                            detect_next_state = WAIT;
+                            qs_cnt_next       = 0;
+                            start_next        = 1'b0;
+                            flag_next         = 1'b0;
+                        end
+                    end
+
+                    if (qs_tick) begin  // 250ms tick
+                        start_next = 1'b1;
+                        if (qs_cnt_reg == 8) begin  // 안전제일!
+                            detect_next_state = IDLE;
+                            qs_cnt_next       = 0;
+                            flag_next         = 1'b0;
+                        end else begin
+                            qs_cnt_next = qs_cnt_reg + 1;
+                        end
+                    end
+                end
             end
         endcase
     end
