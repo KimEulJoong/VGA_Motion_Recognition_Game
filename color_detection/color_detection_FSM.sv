@@ -12,7 +12,7 @@ module color_detector (
     output logic [ 2:0] mode_sel,      //detect   수정!!!
     output logic        tx_start,      //detect
     //play_fsm input
-    input  logic        ready_flag,
+    input  logic        song_select,
     input  logic [ 7:0] rx_data,
     output logic        pattern,
     output logic        order_cnt,
@@ -479,7 +479,7 @@ module color_detector (
                 end
             end
             PLAY_READY: begin
-                if (ready_flag) begin  // ready_flag from uart
+                if (song_select) begin  // song_select from uart
                     game_next_state = PLAY_START;
                     pattern_next = (rx_data == 8'h73) ? 0 : 1; // 's' = sodapop = 0, 'g' = golden = 1 
                     //1bit라서 패턴 계산하는 쪽에서도 ready flag를 받으면 Pattern 신호를 감지하는 형태로 짜줘야 함
