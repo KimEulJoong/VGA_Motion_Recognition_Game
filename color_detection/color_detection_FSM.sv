@@ -411,7 +411,7 @@ module color_detector (
 
     always_ff @(posedge clk, posedge reset) begin
         if (reset) begin
-            game_state <= PLAY_LOAD;
+            game_state <= PLAY_IDLE;
             stage_reg <= STAGE_READY;
             pattern_reg <= 0;
             order_cnt_reg <= 0;
