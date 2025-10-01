@@ -1,0 +1,223 @@
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+-----------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
+| Date         : Mon Sep 29 10:04:02 2025
+| Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file VGA_Camera_Display_control_sets_placed.rpt
+| Design       : VGA_Camera_Display
+| Device       : xc7a35t
+-----------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |   145 |
+|    Minimum number of control sets                        |   145 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |   381 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |   145 |
+| >= 0 to < 4        |     2 |
+| >= 4 to < 6        |    11 |
+| >= 6 to < 8        |     5 |
+| >= 8 to < 10       |     7 |
+| >= 10 to < 12      |    34 |
+| >= 12 to < 14      |     1 |
+| >= 14 to < 16      |     0 |
+| >= 16              |    85 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |            2814 |         1053 |
+| No           | No                    | Yes                    |             126 |           50 |
+| No           | Yes                   | No                     |             421 |          274 |
+| Yes          | No                    | No                     |            1410 |          872 |
+| Yes          | No                    | Yes                    |             256 |           91 |
+| Yes          | Yes                   | No                     |               0 |            0 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++------------------------+---------------------------------------------------------------------------------------+----------------------------------+------------------+----------------+--------------+
+|      Clock Signal      |                                     Enable Signal                                     |         Set/Reset Signal         | Slice Load Count | Bel Load Count | Bels / Slice |
++------------------------+---------------------------------------------------------------------------------------+----------------------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG         |                                                                                       |                                  |                1 |              1 |         1.00 |
+|  tick                  |                                                                                       | reset_IBUF                       |                1 |              3 |         3.00 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_UART_TX/tick_cnt_reg[3]_i_1_n_0                                  | reset_IBUF                       |                1 |              4 |         4.00 |
+|  tick                  | U_SCCB/U_SCCB_controller/state[3]_i_1_n_0                                             | reset_IBUF                       |                1 |              4 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Game_FSM/qs_cnt_reg[3]_i_1_n_0                                                      | reset_IBUF                       |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_RX_FIFO/U_FIFO/p_1_in                                            | reset_IBUF                       |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_TX_FIFO/U_FIFO/r_ptr_reg[3]_i_1_n_0                              | reset_IBUF                       |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_TX_FIFO/U_FIFO/w_ptr_reg[3]_i_1__0_n_0                           | reset_IBUF                       |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_TX_FIFO/U_FIFO/full_reg_reg_0[0]                                 | reset_IBUF                       |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_UART_RX/E[0]                                                     | reset_IBUF                       |                1 |              4 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Game_FSM/FSM_onehot_detect_state[5]_i_1_n_0                                         | reset_IBUF                       |                2 |              5 |         2.50 |
+|  ov7670_xclk_OBUF_BUFG | U_uart_decoder/FSM_onehot_detect_state_reg[2][0]                                      | reset_IBUF                       |                1 |              5 |         5.00 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_UART_RX/tick_cnt_reg[4]_i_1_n_0                                  | reset_IBUF                       |                2 |              5 |         2.50 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/p_en_next                                                          | reset_IBUF                       |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG         | U_SCCB/U_SCCB_controller/counter_reg[6]_i_1_n_0                                       | reset_IBUF                       |                3 |              7 |         2.33 |
+|  clk_IBUF_BUFG         | U_SCCB/U_SCCB_controller/stop_counter_reg[6]_i_1_n_0                                  | reset_IBUF                       |                2 |              7 |         3.50 |
+|  tick                  | U_SCCB/U_SCCB_controller/ip_addr_reg[7]_i_1_n_0                                       | reset_IBUF                       |                2 |              7 |         3.50 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_TX_FIFO/U_FIFO/E[0]                                              | reset_IBUF                       |                4 |              7 |         1.75 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_UART_TX/temp_data_reg[7]_i_1_n_0                                 | reset_IBUF                       |                2 |              8 |         4.00 |
+|  tick                  | U_SCCB/U_SCCB_controller/data_reg[7]_i_1_n_0                                          | reset_IBUF                       |                2 |              8 |         4.00 |
+|  tick                  | U_SCCB/U_SCCB_controller/rom_addr_reg[0]_i_1_n_0                                      | reset_IBUF                       |                2 |              8 |         4.00 |
+|  tick                  | U_SCCB/U_SCCB_controller/reg_addr_reg[7]_i_1_n_0                                      | reset_IBUF                       |                2 |              8 |         4.00 |
+|  ov7670_pclk_IBUF_BUFG | U_OV7670_MemController/v_counter0                                                     | reset_IBUF                       |                3 |              8 |         2.67 |
+|  ov7670_pclk_IBUF_BUFG | U_OV7670_MemController/we_i_1_n_0                                                     | reset_IBUF                       |                5 |              8 |         1.60 |
+|  ov7670_pclk_IBUF_BUFG | U_OV7670_MemController/pixel_data[15]                                                 | reset_IBUF                       |                6 |              8 |         1.33 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[29].U_ray_cross_unit/x_intersect_s2[9]_i_1__28_n_0 |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[2].U_ray_cross_unit/x_intersect_s2[9]_i_1__1_n_0   |                                  |                7 |             10 |         1.43 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[3].U_ray_cross_unit/x_intersect_s2[9]_i_1__2_n_0   |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[4].U_ray_cross_unit/x_intersect_s2[9]_i_1__3_n_0   |                                  |               10 |             10 |         1.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[5].U_ray_cross_unit/x_intersect_s2[9]_i_1__4_n_0   |                                  |                9 |             10 |         1.11 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[6].U_ray_cross_unit/x_intersect_s2[9]_i_1__5_n_0   |                                  |                9 |             10 |         1.11 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[7].U_ray_cross_unit/x_intersect_s2[9]_i_1__6_n_0   |                                  |                9 |             10 |         1.11 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[8].U_ray_cross_unit/x_intersect_s2[9]_i_1__7_n_0   |                                  |                9 |             10 |         1.11 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[9].U_ray_cross_unit/x_intersect_s2[9]_i_1__8_n_0   |                                  |                9 |             10 |         1.11 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[10].U_ray_cross_unit/x_intersect_s2[9]_i_1__9_n_0  |                                  |                7 |             10 |         1.43 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[11].U_ray_cross_unit/x_intersect_s2[9]_i_1__10_n_0 |                                  |                6 |             10 |         1.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[12].U_ray_cross_unit/x_intersect_s2[9]_i_1__11_n_0 |                                  |                7 |             10 |         1.43 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[13].U_ray_cross_unit/x_intersect_s2[9]_i_1__12_n_0 |                                  |                8 |             10 |         1.25 |
+| ~ov7670_xclk_OBUF_BUFG |                                                                                       | reset_IBUF                       |                5 |             10 |         2.00 |
+| ~ov7670_xclk_OBUF_BUFG | U_VGA_Decoder/U_P_COUNTER/v_counter                                                   | reset_IBUF                       |                5 |             10 |         2.00 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/p_addr_reg[9]_i_1_n_0                                              | reset_IBUF                       |                5 |             10 |         2.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[26].U_ray_cross_unit/x_intersect_s2[9]_i_1__25_n_0 |                                  |                7 |             10 |         1.43 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[15].U_ray_cross_unit/x_intersect_s2[9]_i_1__14_n_0 |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[14].U_ray_cross_unit/x_intersect_s2[9]_i_1__13_n_0 |                                  |                9 |             10 |         1.11 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[0].U_ray_cross_unit/x_intersect_s2[9]_i_1_n_0      |                                  |                7 |             10 |         1.43 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[18].U_ray_cross_unit/x_intersect_s2[9]_i_1__17_n_0 |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[17].U_ray_cross_unit/x_intersect_s2[9]_i_1__16_n_0 |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[16].U_ray_cross_unit/x_intersect_s2[9]_i_1__15_n_0 |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[19].U_ray_cross_unit/x_intersect_s2[9]_i_1__18_n_0 |                                  |                5 |             10 |         2.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[1].U_ray_cross_unit/x_intersect_s2[9]_i_1__0_n_0   |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[20].U_ray_cross_unit/x_intersect_s2[9]_i_1__19_n_0 |                                  |                5 |             10 |         2.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[21].U_ray_cross_unit/x_intersect_s2[9]_i_1__20_n_0 |                                  |                6 |             10 |         1.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[22].U_ray_cross_unit/x_intersect_s2[9]_i_1__21_n_0 |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[23].U_ray_cross_unit/x_intersect_s2[9]_i_1__22_n_0 |                                  |                7 |             10 |         1.43 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[24].U_ray_cross_unit/x_intersect_s2[9]_i_1__23_n_0 |                                  |                8 |             10 |         1.25 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[25].U_ray_cross_unit/x_intersect_s2[9]_i_1__24_n_0 |                                  |                7 |             10 |         1.43 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[27].U_ray_cross_unit/x_intersect_s2[9]_i_1__26_n_0 |                                  |                9 |             10 |         1.11 |
+|  ov7670_xclk_OBUF_BUFG | U_Point_In_Polygon/ray_cross_units[28].U_ray_cross_unit/x_intersect_s2[9]_i_1__27_n_0 |                                  |                8 |             10 |         1.25 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_UART_RX/bit_cnt_reg[2]_i_1_n_0                                   | reset_IBUF                       |                2 |             11 |         5.50 |
+|  clk_IBUF_BUFG         | U_SCCB/U_SCCB_controller/o_clk                                                        | reset_IBUF                       |                4 |             12 |         3.00 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_2/y_pixel_d_reg[8]_0[0]  |                8 |             16 |         2.00 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_2/SR[0]                  |               13 |             16 |         1.23 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_2/x_pixel_d_reg[7]_10[0] |               12 |             16 |         1.33 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_2/x_pixel_d_reg[7]_13[0] |               13 |             16 |         1.23 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_2/x_pixel_d_reg[7]_12[0] |               11 |             16 |         1.45 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_2/x_pixel_d_reg[7]_11[0] |               12 |             16 |         1.33 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_2/y_pixel_d_reg[5]_0[0]  |               11 |             16 |         1.45 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_TX_FIFO/U_FIFO/send_reg_reg                                      |                                  |                2 |             16 |         8.00 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_2/y_pixel_d_reg[5]_1[0]  |               15 |             16 |         1.07 |
+|  clk_IBUF_BUFG         | U_UART/U_UART_CNTL/U_UART_RX/E[0]                                                     |                                  |                2 |             16 |         8.00 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_1/SR[0]                  |               11 |             16 |         1.45 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_1/y_pixel_d_reg[8]_1[0]  |                9 |             16 |         1.78 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_1/y_pixel_d_reg[5]_1[0]  |               15 |             16 |         1.07 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_1/y_pixel_d_reg[5]_0[0]  |               14 |             16 |         1.14 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_1/y_pixel_d_reg[8]_2[0]  |               13 |             16 |         1.23 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_1/y_pixel_d_reg[8]_0[0]  |               14 |             16 |         1.14 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_1/x_pixel_d_reg[7]_11[0] |               14 |             16 |         1.14 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | U_Delay_1/x_pixel_d_reg[7]_10[0] |               13 |             16 |         1.23 |
+|  ov7670_xclk_OBUF_BUFG | U_Game_FSM/E[0]                                                                       | reset_IBUF                       |                4 |             19 |         4.75 |
+|  ov7670_xclk_OBUF_BUFG | U_Game_FSM/pattern_state_reg_reg[1]_0[0]                                              | reset_IBUF                       |                4 |             19 |         4.75 |
+|  ov7670_pclk_IBUF_BUFG |                                                                                       | reset_IBUF                       |                7 |             24 |         3.43 |
+|  clk_IBUF_BUFG         |                                                                                       | reset_IBUF                       |               18 |             34 |         1.89 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[4][37]_i_1_n_0                                                |                                  |               23 |             37 |         1.61 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[5][37]_i_1_n_0                                                |                                  |               18 |             37 |         2.06 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[23][37]_i_1_n_0                                               |                                  |               24 |             37 |         1.54 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line                                                               |                                  |               22 |             37 |         1.68 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[26][37]_i_1_n_0                                               |                                  |               19 |             37 |         1.95 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[24][37]_i_1_n_0                                               |                                  |               20 |             37 |         1.85 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[9][37]_i_1_n_0                                                |                                  |               23 |             37 |         1.61 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[12][37]_i_1_n_0                                               |                                  |               22 |             37 |         1.68 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[15][37]_i_1_n_0                                               |                                  |               21 |             37 |         1.76 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[16][37]_i_1_n_0                                               |                                  |               17 |             37 |         2.18 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[20][37]_i_1_n_0                                               |                                  |               24 |             37 |         1.54 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[30][37]_i_1_n_0                                               |                                  |               19 |             37 |         1.95 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[7][37]_i_1_n_0                                                |                                  |               20 |             37 |         1.85 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[17][37]_i_1_n_0                                               |                                  |               26 |             37 |         1.42 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[19][37]_i_1_n_0                                               |                                  |               26 |             37 |         1.42 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[21][37]_i_1_n_0                                               |                                  |               20 |             37 |         1.85 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[27][37]_i_1_n_0                                               |                                  |               13 |             37 |         2.85 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[18][37]_i_1_n_0                                               |                                  |               24 |             37 |         1.54 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[8][37]_i_1_n_0                                                |                                  |               21 |             37 |         1.76 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[25][37]_i_1_n_0                                               |                                  |               26 |             37 |         1.42 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[6][37]_i_1_n_0                                                |                                  |               20 |             37 |         1.85 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[10][37]_i_1_n_0                                               |                                  |               22 |             37 |         1.68 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[22][37]_i_1_n_0                                               |                                  |               21 |             37 |         1.76 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[28][37]_i_1_n_0                                               |                                  |               25 |             37 |         1.48 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[14][37]_i_1_n_0                                               |                                  |               20 |             37 |         1.85 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[29][37]_i_1_n_0                                               |                                  |               24 |             37 |         1.54 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[13][37]_i_1_n_0                                               |                                  |               20 |             37 |         1.85 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[11][37]_i_1_n_0                                               |                                  |               23 |             37 |         1.61 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[2][37]_i_1_n_0                                                |                                  |               23 |             37 |         1.61 |
+|  clk_IBUF_BUFG         | U_Point_In_Polygon/line[3][37]_i_1_n_0                                                |                                  |               14 |             37 |         2.64 |
+|  ov7670_xclk_OBUF_BUFG | U_Game_FSM/pattern_state_reg_reg[1]_1[0]                                              | reset_IBUF                       |               17 |             38 |         2.24 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[9]_3                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[7]_7                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[9]_4                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[9]_1                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[7]_8                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[9]_5                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[8]_1                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[8]_3                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[7]_9                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[9]_2                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[8]_2                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[9]_3                                                          |                                  |               17 |             66 |         3.88 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[9]_2                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[8]_2                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[7]_6                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[8]_1                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[9]_0                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[7]_5                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[7]_7                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[8]_0                                                          |                                  |               18 |             66 |         3.67 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[9]_4                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[7]_8                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[7]_9                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[8]_0                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[8]_3                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_1/x_pixel_d_reg[9]_5                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[7]_5                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[7]_6                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[9]_0                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG | U_Delay_2/x_pixel_d_reg[9]_1                                                          |                                  |               48 |            192 |         4.00 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       | reset_IBUF                       |               95 |            220 |         2.32 |
+|  ov7670_xclk_OBUF_BUFG |                                                                                       |                                  |             1052 |           2823 |         2.68 |
++------------------------+---------------------------------------------------------------------------------------+----------------------------------+------------------+----------------+--------------+
+
+

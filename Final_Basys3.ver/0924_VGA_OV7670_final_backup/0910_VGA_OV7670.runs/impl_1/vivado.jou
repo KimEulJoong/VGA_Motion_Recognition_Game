@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Mon Sep 29 10:02:35 2025
+# Process ID: 50484
+# Current directory: C:/ssssssssssssssssssss/0925_bbbaaaccckkkuuuppp/0924_VGA_OV7670_final_backup/0910_VGA_OV7670.runs/impl_1
+# Command line: vivado.exe -log VGA_Camera_Display.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source VGA_Camera_Display.tcl -notrace
+# Log file: C:/ssssssssssssssssssss/0925_bbbaaaccckkkuuuppp/0924_VGA_OV7670_final_backup/0910_VGA_OV7670.runs/impl_1/VGA_Camera_Display.vdi
+# Journal file: C:/ssssssssssssssssssss/0925_bbbaaaccckkkuuuppp/0924_VGA_OV7670_final_backup/0910_VGA_OV7670.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source VGA_Camera_Display.tcl -notrace
