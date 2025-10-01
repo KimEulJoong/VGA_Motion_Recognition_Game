@@ -1,0 +1,196 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Mon Sep 29 12:35:04 2025
+# Process ID: 24280
+# Current directory: C:/ssssssssssssssssssss/250929_PL_final
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent53416 C:\ssssssssssssssssssss\250929_PL_final\250929_PL_final.xpr
+# Log file: C:/ssssssssssssssssssss/250929_PL_final/vivado.log
+# Journal file: C:/ssssssssssssssssssss/250929_PL_final\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.xpr
+INFO: [Project 1-313] Project file moved from 'D:/work/250929_PL_final' since last save.
+WARNING: [filemgmt 56-2] IP Repository Path: Could not find the directory 'C:/ssssssssssssssssssss/250929_PL_final_ip', nor could it be found using path 'D:/work/250929_PL_final_ip'.
+WARNING: [filemgmt 56-2] Default IP Output Path : Could not find the directory 'C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.gen/sources_1', nor could it be found using path 'D:/work/250929_PL_final/250929_PL_final.gen/sources_1'.
+CRITICAL WARNING: [Project 1-311] Could not find the file 'C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/detect.sv', nor could it be found using path 'D:/work/250929_PL_final/250929_PL_final.srcs/sources_1/imports/detect.sv'.
+CRITICAL WARNING: [Project 1-311] Could not find the file 'C:/ssssssssssssssssssss/250929_PL_final_ip/component.xml', nor could it be found using path 'D:/work/250929_PL_final_ip/component.xml'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+WARNING: [IP_Flow 19-2248] Failed to load user IP repository 'c:/ssssssssssssssssssss/250929_PL_final_ip'; Can't find the specified path.
+If this directory should no longer be in your list of user repositories, go to the IP Settings dialog and remove it.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2020.2/data/ip'.
+update_compile_order -fileset sources_1
+export_ip_user_files -of_objects  [get_files C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/detect.sv] -no_script -reset -force -quiet
+remove_files  C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/detect.sv
+add_files -norecurse C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/delay_sig.sv
+update_compile_order -fileset sources_1
+synth_design -rtl -rtl_skip_mlo -name rtl_1
+Command: synth_design -rtl -rtl_skip_mlo -name rtl_1
+Starting synth_design
+Using part: xc7z020clg400-1
+Top: PL_system
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 1503.930 ; gain = 250.562
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'PL_system' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/PL_System.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'BUFG' [C:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:1083]
+INFO: [Synth 8-6155] done synthesizing module 'BUFG' (1#1) [C:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:1083]
+INFO: [Synth 8-6157] synthesizing module 'pcam_decoder' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/pcam_decoder.sv:3]
+	Parameter X_MAX bound to: 1920 - type: integer 
+	Parameter Y_MAX bound to: 1080 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'pcam_decoder' (2#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/pcam_decoder.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'delay_data' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/delay.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'delay_data' (3#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/delay.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'LineBuffer' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/LineBuffer.sv:3]
+	Parameter WIDTH bound to: 24 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'LineBuffer' (4#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/LineBuffer.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'MedianFilter' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/MedianFilter.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'Sort' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/MedianFilter.sv:75]
+	Parameter WIDTH bound to: 32'sb00000000000000000000000000001000 
+WARNING: [Synth 8-324] index 9 out of range [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/MedianFilter.sv:93]
+WARNING: [Synth 8-324] index 9 out of range [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/MedianFilter.sv:95]
+WARNING: [Synth 8-324] index 9 out of range [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/MedianFilter.sv:96]
+INFO: [Synth 8-6155] done synthesizing module 'Sort' (5#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/MedianFilter.sv:75]
+INFO: [Synth 8-6155] done synthesizing module 'MedianFilter' (6#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/MedianFilter.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'GrayScale_Filter' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/GrayScaleFilter.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'GrayScale_Filter' (7#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/GrayScaleFilter.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'SobelFilter' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/SobelFilter.sv:3]
+	Parameter threshold bound to: 1500 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'SobelFilter' (8#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/SobelFilter.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'detect_grn' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/detect_grn.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'detect_grn' (9#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/detect_grn.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'detect_red' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/detect_red.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'detect_red' (10#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/detect_red.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'pattern_rom' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/pattern_rom.sv:3]
+INFO: [Synth 8-3876] $readmem data file 'PATTERN.mem' is read successfully [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/pattern_rom.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'pattern_rom' (11#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/pattern_rom.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'game_main_fsm' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/game_main_fsm.sv:3]
+	Parameter X_BOX1 bound to: 10 - type: integer 
+	Parameter X_BOX2 bound to: 10 - type: integer 
+	Parameter X_BOX3 bound to: 10 - type: integer 
+	Parameter X_BOX4 bound to: 1440 - type: integer 
+	Parameter X_BOX5 bound to: 1440 - type: integer 
+	Parameter X_BOX6 bound to: 1440 - type: integer 
+	Parameter Y_BOX1 bound to: 10 - type: integer 
+	Parameter Y_BOX2 bound to: 360 - type: integer 
+	Parameter Y_BOX3 bound to: 720 - type: integer 
+	Parameter Y_BOX4 bound to: 10 - type: integer 
+	Parameter Y_BOX5 bound to: 360 - type: integer 
+	Parameter Y_BOX6 bound to: 720 - type: integer 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/game_main_fsm.sv:202]
+INFO: [Synth 8-6155] done synthesizing module 'game_main_fsm' (12#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/game_main_fsm.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'point_in_polygon' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/point_in_polygon.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'ray_cross_unit' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/ray_crossing.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'ray_cross_unit' (13#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/ray_crossing.sv:3]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/point_in_polygon.sv:66]
+INFO: [Synth 8-6155] done synthesizing module 'point_in_polygon' (14#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/point_in_polygon.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'sender_uart' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:2]
+INFO: [Synth 8-6157] synthesizing module 'uart_controller' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_controller.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'btn_debounce' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/btn_debounce.sv:4]
+	Parameter F_COUNT bound to: 1000 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'btn_debounce' (15#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/btn_debounce.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'uart_tx' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_tx.sv:3]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_tx.sv:60]
+INFO: [Synth 8-6155] done synthesizing module 'uart_tx' (16#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_tx.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'uart_rx' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_rx.sv:4]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_rx.sv:52]
+INFO: [Synth 8-6155] done synthesizing module 'uart_rx' (17#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_rx.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'fifo' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/fifo.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'register_file' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/fifo.sv:42]
+	Parameter DEPTH bound to: 16 - type: integer 
+	Parameter WIDTH bound to: 4 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'register_file' (18#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/fifo.sv:42]
+INFO: [Synth 8-6157] synthesizing module 'fifo_controlunit' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/fifo_controlunit.sv:4]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/fifo_controlunit.sv:57]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_controlunit' (19#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/fifo_controlunit.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'fifo' (20#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/fifo.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'baud_gen' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/baud_gen.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'baud_gen' (21#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/baud_gen.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'uart_controller' (22#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_controller.sv:3]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:71]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:86]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:101]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:117]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:131]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:147]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:161]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:173]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:186]
+INFO: [Synth 8-6155] done synthesizing module 'sender_uart' (23#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/send_uart.sv:2]
+INFO: [Synth 8-6157] synthesizing module 'uart_decoder' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_decoder.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'uart_decoder' (24#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/UART/uart_decoder.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'Synchronizer' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/Syncronizer.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'Synchronizer' (25#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/Syncronizer.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'Pattern_Detect_Display' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/Pattern_Detect_Display.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'Pattern_Detect_Display' (26#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/Pattern_Detect_Display.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'delay_sig' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/delay_sig.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'delay_sig' (27#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/delay_sig.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'GuideLine' [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/Guideline.sv:1]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/Guideline.sv:11]
+INFO: [Synth 8-6155] done synthesizing module 'GuideLine' (28#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/Guideline.sv:1]
+INFO: [Synth 8-6155] done synthesizing module 'PL_system' (29#1) [C:/ssssssssssssssssssss/250929_PL_final/250929_PL_final.srcs/sources_1/imports/PL_System.sv:3]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1587.438 ; gain = 334.070
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1587.438 ; gain = 334.070
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1587.438 ; gain = 334.070
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.066 . Memory (MB): peak = 1587.438 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1701.500 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+RTL Elaboration Complete:  : Time (s): cpu = 00:00:14 ; elapsed = 00:00:09 . Memory (MB): peak = 1881.871 ; gain = 628.504
+77 Infos, 3 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:18 ; elapsed = 00:00:18 . Memory (MB): peak = 1881.871 ; gain = 776.484
+export_ip_user_files -of_objects  [get_files C:/ssssssssssssssssssss/250929_PL_final_ip/component.xml] -no_script -reset -force -quiet
+remove_files  C:/ssssssssssssssssssss/250929_PL_final_ip/component.xml
+close_design
+ipx::package_project -root_dir C:/ssssssssssssssssssss/250929_PL_final_ip -vendor xilinx.com -library user -taxonomy /UserIP -import_files -set_current false
+WARNING: [IP_Flow 19-5101] Packaging a component with a SystemVerilog top file is not fully supported. Please refer to UG1118 'Creating and Packaging Custom IP'.
+INFO: [IP_Flow 19-5107] Inferred bus interface 'reset' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-2181] Payment Required is not set for this core.
+INFO: [IP_Flow 19-2187] The Product Guide file is missing.
+ipx::unload_core c:/ssssssssssssssssssss/250929_PL_final_ip/component.xml
+ipx::edit_ip_in_project -upgrade true -name tmp_edit_project -directory C:/ssssssssssssssssssss/250929_PL_final_ip c:/ssssssssssssssssssss/250929_PL_final_ip/component.xml
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2020.2/data/ip'.
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'c:/ssssssssssssssssssss/250929_PL_final_ip'.
+INFO: [IP_Flow 19-795] Syncing license key meta-data
+update_compile_order -fileset sources_1
+ipx::merge_project_changes files [ipx::current_core]
+WARNING: [IP_Flow 19-5226] Project source file 'c:/ssssssssssssssssssss/250929_PL_final_ip/component.xml' ignored by IP packager.
+set_property core_revision 2 [ipx::current_core]
+ipx::update_source_project_archive -component [ipx::current_core]
+ipx::create_xgui_files [ipx::current_core]
+ipx::update_checksums [ipx::current_core]
+ipx::check_integrity [ipx::current_core]
+INFO: [IP_Flow 19-2181] Payment Required is not set for this core.
+INFO: [IP_Flow 19-2187] The Product Guide file is missing.
+INFO: [Ipptcl 7-1486] check_integrity: Integrity check passed.
+ipx::save_core [ipx::current_core]
+ipx::move_temp_component_back -component [ipx::current_core]
+close_project -delete
+update_ip_catalog -rebuild -repo_path c:/ssssssssssssssssssss/250929_PL_final_ip
+INFO: [IP_Flow 19-725] Reloaded user IP repository 'c:/ssssssssssssssssssss/250929_PL_final_ip'
+exit
+INFO: [Common 17-206] Exiting Vivado at Mon Sep 29 12:55:15 2025...
