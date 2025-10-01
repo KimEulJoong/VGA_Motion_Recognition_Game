@@ -1,5 +1,12 @@
 # 레츠댄스: VGA 기반 K-Dance 모션 인식 게임
 
+## Repository 구성
+- **Final_Basys3.ver** : Basys3 보드에서 작동하는 해당 프로젝트 종합 소스코드 폴더
+  - **0924_VGA_OV7670_final_backup** : Vivado 에서 작동하는 HW 소스코드
+  - **motion_game_ver2** : VSCode에서 작동하는 Python 기반 SW(GUI) 소스코드
+- **Report** : 최종 프로젝트 정리 문서 자료 (ppt, pdf) - 제본용, 발표용
+- **final_zybo.ver** : 해당 프로젝트의 zybo z7-20 및 pcam 버전 HW 소스코드
+
 ## 프로젝트 선정 배경
 - **문제 인식** : 현대 사회에 들어 지속적으로 증가하는 우울감과 스트레스
 - **해결 방안** : K-POP은 글로벌 시장에서 큰 인기를 얻고 있다. K-POP은 긴장감을 풀어주고 **용기**를 북돋아주며, **긍정**적인 에너지를 전달한다.
